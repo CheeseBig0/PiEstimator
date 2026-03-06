@@ -12,13 +12,29 @@ public class PiEstimator{
 //may implement additional functions if you feel it necessary.
 	
 public static void main(String[] args) {  
-	    JFrame f=new JFrame("Button Example");  
-	    JButton b=new JButton("Click Here");  
-	    JLabel example = new JLabel(Double.toString(Math.PI));
-	    f.add(example);
-	    f.add(b);  
+	    JFrame f=new JFrame("Pi Estimator");  
+	    JButton runButton=new JButton("Start");  
+		f.add(runButton);
+	    //JLabel example = new JLabel(Double.toString(Math.PI));
+	    //f.add(example);
+	      
 	    f.setSize(300,300);  
 	    f.setLayout(new GridLayout(4, 1));  
-	    f.setVisible(true);      
-	}  
+	    f.setVisible(true);
+		
+		runButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(runButton.getText() == "Pause") {
+					runButton.setText("Continue");
+				} else { runButton.setText("Pause"); }
+			}
+		});
+
+	} 
+
+	public void run() {
+		
+	}
 }
+
+
