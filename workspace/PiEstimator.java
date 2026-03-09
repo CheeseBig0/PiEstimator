@@ -26,15 +26,43 @@ public static void main(String[] args) {
 			public void actionPerformed(ActionEvent arg0) {
 				if(runButton.getText() == "Pause") {
 					runButton.setText("Continue");
-				} else { runButton.setText("Pause"); }
+				} else {
+					runButton.setText("Pause");
+				}
 			}
 		});
 
-	} 
+	}
 
-	public void run() {
+	public static class ThreadRunner extends Thread {
+
+		public void run() {
+			System.out.println("running");
+
+			while(true) {
+				synchronized(this) {
+					while(!running) {
+						try {
+							wait();
+						}
+						catch(InterruptedException e) {}
+					}
+				}
+			}
+		}
 		
 	}
+
+	ThreadRunner runner = new ThreadRunner(); {
+		synchronized(runner) {
+			boolean running = true;
+			runner.notify();
+		};
+	}
+	
+
+	
+
 }
 
 
