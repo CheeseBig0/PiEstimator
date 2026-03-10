@@ -22,22 +22,37 @@ public static void main(String[] args) {
 	    f.setLayout(new GridLayout(4, 1));  
 	    f.setVisible(true);
 		
+		ThreadRunner NewRunner = new ThreadRunner();
+		NewRunner.start();
+		NewRunner.running = false;
+		System.out.println("letting it run");
+		
+
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(runButton.getText() == "Pause") {
-					runButton.setText("Continue");
-				} else {
+				NewRunner.running = !NewRunner.running;
+				System.out.println(runButton.getText());
+				if(NewRunner.running) {
 					runButton.setText("Pause");
+				} else {
+					runButton.setText("Continue");
+				}
+
+				synchronized(NewRunner) {
+					NewRunner.notify();
 				}
 			}
 		});
-
+		
 	}
 
 	public static class ThreadRunner extends Thread {
 
+		boolean running;
 		public void run() {
-			System.out.println("running");
+
+			int isLess = 0;
+			int trials = 0;
 
 			while(true) {
 				synchronized(this) {
@@ -48,17 +63,25 @@ public static void main(String[] args) {
 						catch(InterruptedException e) {}
 					}
 				}
+
+				
+
+				if(trials < 100000) {
+					double x = Math.random();
+					double y = Math.random();
+					if(x*x + y*y < 1) {
+						isLess++;
+					}
+					trials++;
+					System.out.println("Less than 1: " + isLess);
+				}
+				//System.out.println("Trials: " + trials);
+				
 			}
 		}
-		
 	}
 
-	ThreadRunner runner = new ThreadRunner(); {
-		synchronized(runner) {
-			boolean running = true;
-			runner.notify();
-		};
-	}
+	
 	
 
 	
