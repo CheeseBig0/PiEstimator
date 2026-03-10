@@ -51,8 +51,8 @@ public static void main(String[] args) {
 		boolean running;
 		public void run() {
 
-			int isLess = 0;
-			int trials = 0;
+			double isLess = 0;
+			double trials = 0;
 
 			while(true) {
 				synchronized(this) {
@@ -66,16 +66,18 @@ public static void main(String[] args) {
 
 				
 
-				if(trials < 100000) {
+				for(int i=0; i<1000000; i++) {
 					double x = Math.random();
 					double y = Math.random();
 					if(x*x + y*y < 1) {
 						isLess++;
 					}
 					trials++;
-					System.out.println("Less than 1: " + isLess);
+					//System.out.println("Less than 1: " + isLess);
 				}
-				//System.out.println("Trials: " + trials);
+				double estimate = 4*(double)isLess/trials;
+				System.out.println("Trials: " + Math.round(trials));
+				System.out.println("Estimate: "+estimate);
 				
 			}
 		}
